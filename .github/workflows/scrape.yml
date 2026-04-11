@@ -1,0 +1,38 @@
+name: Update Prayer Times
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 3 AM PT (UTC-7) every day
+  workflow_dispatch:         # allow manual run from GitHub Actions tab
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml
+
+      - name: Run scraper
+        run: python files/sd_masjid_scraper.py
+
+      - name: Copy updated JSON to web root
+        run: cp files/prayer_times.json prayer_times.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prayer_times.json files/prayer_times.json
+          git diff --cached --quiet || git commit -m "chore: update prayer times $(date -u '+%Y-%m-%d')"
+          git push

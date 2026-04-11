@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>San Diego Masajid — Prayer Times</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   CSS VARIABLES
+===================================================================== */
+:root {
+  --ivory:        #F4F1EA;
+  --ivory-dim:    rgba(244,241,234,0.6);
+  --ivory-faint:  rgba(244,241,234,0.1);
+  --gold:         #C5A059;
+  --gold-light:   #D4B578;
+  --gold-dim:     rgba(197,160,89,0.25);
+  --gold-faint:   rgba(197,160,89,0.1);
+  --green:        #2D5A27;
+  --green-mid:    #243F20;
+  --green-dark:   #1A2E17;
+  --green-deep:   #111E0F;
+  --glass:        rgba(255,255,255,0.04);
+  --glass-border: rgba(197,160,89,0.18);
+  --blur:         18px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 26px;
+}
+
+/* =====================================================================
+   RESET & BASE
+===================================================================== */
+*,*::before,*::after { box-sizing: border-box; margin:0; padding:0; }
+html { font-size:16px; scroll-behavior:smooth; }
+body {
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background-color: var(--green-deep);
+  color: var(--ivory);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* =====================================================================
+   GEOMETRIC PATTERN BACKGROUND
+===================================================================== */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23C5A059' stroke-width='0.35' opacity='0.12'%3E%3Cpolygon points='50,8 56,30 78,24 62,42 78,60 56,54 50,76 44,54 22,60 38,42 22,24 44,30'/%3E%3Crect x='22' y='22' width='16' height='16' transform='rotate(45 30 30)'/%3E%3Crect x='62' y='22' width='16' height='16' transform='rotate(45 70 30)'/%3E%3Crect x='22' y='62' width='16' height='16' transform='rotate(45 30 70)'/%3E%3Crect x='62' y='62' width='16' height='16' transform='rotate(45 70 70)'/%3E%3Ccircle cx='50' cy='50' r='6' stroke-width='0.4'/%3E%3Cline x1='0' y1='50' x2='100' y2='50' stroke-width='0.2'/%3E%3Cline x1='50' y1='0' x2='50' y2='100' stroke-width='0.2'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat:repeat;
+  background-size:100px 100px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Ambient glow orbs */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(45,90,39,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 80%, rgba(197,160,89,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(26,46,23,0.5) 0%, transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* =====================================================================
+   LAYOUT
+===================================================================== */
+.app { position:relative; z-index:1; min-height:100vh; padding-bottom:60px; }
+.container { max-width:1160px; margin:0 auto; padding:0 16px; }
+
+/* =====================================================================
+   HEADER
+===================================================================== */
+.header {
+  position:sticky; top:0; z-index:100;
+  background:rgba(17,30,15,0.82);
+  backdrop-filter:blur(var(--blur));
+  -webkit-backdrop-filter:blur(var(--blur));
+  border-bottom:1px solid var(--glass-border);
+  padding:12px 0;
+}
+.header-inner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.logo {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+.logo-icon {
+  width:36px; height:36px;
+  background:linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  border:1px solid var(--gold-dim);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.logo-text { font-size:1rem; font-weight:700; color:var(--ivory); letter-spacing:-0.02em; }
+.logo-text span { color:var(--gold); }
+.header-right { text-align:right; }
+.logo-hadith {
+  font-size:0.68rem;
+  font-style:italic;
+  color:rgba(197,160,89,0.55);
+  margin-top:2px;
+  line-height:1.35;
+  font-weight:400;
+  max-width:340px;
+  /* prevent ﷺ ligature from forcing a line break */
+  word-break:keep-all;
+  overflow-wrap:normal;
+}
+.clock {
+  font-size:1.2rem;
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:-0.02em;
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+}
+.header-date {
+  font-size:0.72rem;
+  color:var(--ivory-dim);
+  margin-top:2px;
+  font-weight:400;
+}
+
+/* =====================================================================
+   NEXT PRAYER top-row (label + hijri inline)
+===================================================================== */
+.next-prayer-wrap { padding:16px 0 24px; }
+.np-top-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:10px;
+}
+.hijri-date {
+  background:rgba(197,160,89,0.12);
+  border:1px solid rgba(197,160,89,0.22);
+  border-radius:20px;
+  padding:3px 12px;
+  font-size:0.75rem;
+  color:var(--gold-light);
+  font-weight:500;
+  white-space:nowrap;
+}
+
+/* =====================================================================
+   NEXT PRAYER CARD
+===================================================================== */
+.next-prayer-card {
+  background:linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-xl);
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+.next-prayer-card::before {
+  content:'';
+  position:absolute;
+  top:-30px; right:-30px;
+  width:180px; height:180px;
+  background:radial-gradient(circle, rgba(197,160,89,0.14) 0%, transparent 65%);
+  pointer-events:none;
+}
+.np-label {
+  font-size:0.68rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+  color:var(--gold);
+}
+.np-row {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+}
+.np-name {
+  font-size:2.4rem;
+  font-weight:800;
+  color:var(--ivory);
+  letter-spacing:-0.04em;
+  line-height:1;
+}
+.np-time-val {
+  font-size:0.95rem;
+  font-weight:500;
+  color:var(--gold-light);
+  margin-top:4px;
+}
+.np-countdown { text-align:right; }
+.np-cd-label {
+  font-size:0.68rem;
+  color:rgba(244,241,234,0.45);
+  font-weight:400;
+  margin-bottom:2px;
+}
+.np-cd-value {
+  font-size:2rem;
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:-0.02em;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Prayers strip */
+.prayers-strip {
+  display:flex;
+  gap:8px;
+  margin-top:16px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding-bottom:2px;
+}
+.prayers-strip::-webkit-scrollbar { display:none; }
+.p-chip {
+  flex:0 0 auto;
+  background:rgba(244,241,234,0.06);
+  border:1px solid rgba(197,160,89,0.12);
+  border-radius:var(--r-sm);
+  padding:7px 12px;
+  min-width:74px;
+  text-align:center;
+  transition:background 0.2s, border-color 0.2s;
+}
+.p-chip.active {
+  background:rgba(197,160,89,0.18);
+  border-color:var(--gold);
+}
+.p-chip.past { opacity:0.45; }
+.p-chip-name {
+  font-size:0.63rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:rgba(244,241,234,0.5);
+}
+.p-chip.active .p-chip-name { color:var(--gold); }
+.p-chip-time {
+  font-size:0.82rem;
+  font-weight:600;
+  color:var(--ivory);
+  margin-top:2px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* =====================================================================
+   SECTION HEADER & FILTER TABS
+===================================================================== */
+.sec-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+.sec-title {
+  font-size:1.15rem;
+  font-weight:700;
+  color:var(--ivory);
+  letter-spacing:-0.02em;
+}
+.sec-count {
+  font-size:0.75rem;
+  font-weight:600;
+  color:var(--gold);
+  background:var(--gold-faint);
+  border:1px solid var(--gold-dim);
+  border-radius:20px;
+  padding:3px 10px;
+}
+.filter-tabs {
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.filter-tabs::-webkit-scrollbar { display:none; }
+.ftab {
+  flex:0 0 auto;
+  padding:7px 14px;
+  border-radius:var(--r-sm);
+  font-size:0.82rem;
+  font-weight:500;
+  cursor:pointer;
+  border:1px solid rgba(244,241,234,0.1);
+  background:rgba(244,241,234,0.04);
+  color:rgba(244,241,234,0.55);
+  transition:all 0.2s;
+  user-select:none;
+}
+.ftab.active { background:var(--green); border-color:var(--gold); color:var(--ivory); font-weight:600; }
+.ftab:hover:not(.active) { background:rgba(244,241,234,0.07); color:var(--ivory); }
+.ftab-sep { color:rgba(244,241,234,0.15); padding:0 2px; display:flex; align-items:center; font-size:1rem; }
+.ftab-loc { border-color:rgba(197,160,89,0.2); color:rgba(197,160,89,0.7); }
+.ftab-loc.active { background:rgba(197,160,89,0.15); border-color:var(--gold); color:var(--gold); }
+.ftab-loc:hover:not(.active) { background:rgba(197,160,89,0.08); color:var(--gold); }
+.dist-badge {
+  position:absolute; top:14px; right:14px;
+  background:rgba(197,160,89,0.12);
+  border:1px solid rgba(197,160,89,0.3);
+  color:var(--gold);
+  font-size:0.72rem; font-weight:600;
+  padding:3px 9px; border-radius:20px;
+  letter-spacing:0.01em; white-space:nowrap;
+}
+
+/* =====================================================================
+   MASJID GRID
+===================================================================== */
+.masjids-grid {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+@media (min-width:640px) {
+  .masjids-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (min-width:1024px) {
+  .masjids-grid { grid-template-columns:repeat(3,1fr); }
+}
+
+/* =====================================================================
+   MASJID CARD
+===================================================================== */
+.mcard {
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  backdrop-filter:blur(var(--blur));
+  -webkit-backdrop-filter:blur(var(--blur));
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+.mcard:hover {
+  transform:translateY(-2px);
+  box-shadow:0 16px 48px rgba(0,0,0,0.35), 0 0 24px rgba(197,160,89,0.08);
+}
+/* Arch decorations at top */
+.mcard-arch {
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:44px; height:22px;
+  border-radius:44px 44px 0 0;
+  border:1px solid rgba(197,160,89,0.14);
+  border-bottom:none;
+  pointer-events:none;
+}
+.mcard-head {
+  padding:18px 18px 14px;
+}
+.mbadge {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:0.62rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  padding:3px 9px;
+  border-radius:20px;
+  margin-bottom:10px;
+}
+.mbadge.integration { background:rgba(45,90,39,0.35); border:1px solid rgba(90,170,80,0.3); color:#8FCC85; }
+.mbadge.scrape      { background:rgba(180,130,40,0.18); border:1px solid rgba(197,160,89,0.3); color:#E8C066; }
+.mbadge.fallback    { background:rgba(150,60,60,0.18); border:1px solid rgba(200,100,100,0.3); color:#E09090; }
+.mname {
+  font-size:1rem;
+  font-weight:700;
+  color:var(--ivory);
+  letter-spacing:-0.02em;
+  line-height:1.3;
+  margin-bottom:5px;
+}
+.maddress {
+  font-size:0.78rem;
+  color:var(--ivory-dim);
+  line-height:1.45;
+  text-decoration:none;
+  display:block;
+}
+.maddress:hover { color:var(--ivory); }
+.mmeta {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+.mlink {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-size:0.73rem;
+  color:var(--gold-light);
+  text-decoration:none;
+  font-weight:500;
+  transition:color 0.15s;
+}
+.mlink:hover { color:var(--gold); }
+.mlink svg { flex-shrink:0; }
+.mdivider {
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(197,160,89,0.18),transparent);
+  margin:0 18px;
+  flex-shrink:0;
+}
+.mtimes { padding:14px 18px 18px; flex:1; }
+
+/* =====================================================================
+   PRAYER TIMES TABLE (static/fallback)
+===================================================================== */
+.pt-table { width:100%; border-collapse:collapse; }
+.pt-table tr { border-bottom:1px solid rgba(197,160,89,0.07); }
+.pt-table tr:last-child { border-bottom:none; }
+.pt-table td { padding:6px 0; font-size:0.86rem; }
+.pt-table td:first-child { color:var(--ivory-dim); font-weight:500; width:50%; }
+.pt-table td:last-child { color:var(--ivory); font-weight:600; text-align:right; font-variant-numeric:tabular-nums; }
+.pt-table tr.active-prayer td { color:var(--gold); }
+
+/* =====================================================================
+   JUMUAH SECTION
+===================================================================== */
+.jumuah-block {
+  background:rgba(197,160,89,0.07);
+  border:1px solid rgba(197,160,89,0.16);
+  border-radius:var(--r-sm);
+  padding:12px 14px;
+  margin-top:12px;
+}
+.jumuah-lbl {
+  font-size:0.63rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.jumuah-list { display:flex; flex-direction:column; gap:0; }
+.jrow {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:7px 0;
+  border-bottom:1px solid rgba(197,160,89,0.08);
+}
+.jrow:last-child { border-bottom:none; padding-bottom:0; }
+.jrow:first-child { padding-top:0; }
+.jdot {
+  width:6px; height:6px;
+  background:var(--gold);
+  border-radius:50%;
+  flex-shrink:0;
+  opacity:0.8;
+}
+.jtime {
+  font-size:0.9rem;
+  font-weight:700;
+  color:var(--ivory);
+  font-variant-numeric:tabular-nums;
+  flex:1;
+}
+.jlang {
+  font-size:0.7rem;
+  font-weight:500;
+  color:var(--ivory-dim);
+  background:rgba(255,255,255,0.06);
+  border-radius:5px;
+  padding:2px 7px;
+}
+
+/* =====================================================================
+   INTEGRATION LOADING STATE
+===================================================================== */
+.iq-loading {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 0;
+  color:rgba(244,241,234,0.4);
+  font-size:0.82rem;
+}
+.iq-spinner {
+  width:18px; height:18px;
+  border:2px solid rgba(197,160,89,0.2);
+  border-top-color:var(--gold);
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  flex-shrink:0;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* Small secondary link — shown below iqamah table */
+.ext-btn-sm {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:0.75rem;
+  font-weight:500;
+  color:rgba(197,160,89,0.65);
+  text-decoration:none;
+  margin-top:12px;
+  transition:color 0.15s;
+}
+.ext-btn-sm:hover { color:var(--gold); }
+.ext-btn-sm svg { flex-shrink:0; }
+
+/* =====================================================================
+   EXTERNAL LINK BUTTON
+===================================================================== */
+.ext-btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  background:rgba(197,160,89,0.1);
+  border:1px solid rgba(197,160,89,0.22);
+  border-radius:var(--r-sm);
+  padding:10px 16px;
+  text-decoration:none;
+  color:var(--gold-light);
+  font-size:0.84rem;
+  font-weight:600;
+  transition:background 0.2s, color 0.2s;
+  margin-bottom:12px;
+}
+.ext-btn:hover {
+  background:rgba(197,160,89,0.18);
+  color:var(--gold);
+}
+
+/* =====================================================================
+   NO TIMES / CALCULATED NOTE
+===================================================================== */
+.no-times {
+  text-align:center;
+  padding:12px 4px;
+  color:rgba(244,241,234,0.35);
+  font-size:0.82rem;
+  line-height:1.55;
+}
+.no-times a { color:var(--gold-light); text-decoration:none; }
+.pt-label {
+  font-size:0.63rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:rgba(244,241,234,0.38);
+  margin-bottom:8px;
+}
+.times-note {
+  font-size:0.68rem;
+  color:rgba(244,241,234,0.32);
+  margin-top:8px;
+  line-height:1.5;
+  font-style:italic;
+}
+.calc-note {
+  display:flex;
+  align-items:flex-start;
+  gap:6px;
+  background:rgba(150,100,50,0.1);
+  border:1px solid rgba(197,160,89,0.15);
+  border-radius:var(--r-sm);
+  padding:8px 10px;
+  font-size:0.72rem;
+  color:rgba(244,241,234,0.5);
+  margin-top:10px;
+  line-height:1.5;
+}
+
+/* =====================================================================
+   SKELETON LOADING
+===================================================================== */
+.skel {
+  background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.04) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.6s infinite;
+  border-radius:var(--r-sm);
+}
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+
+/* =====================================================================
+   FOOTER
+===================================================================== */
+.footer {
+  text-align:center;
+  padding:32px 16px 16px;
+  color:rgba(244,241,234,0.25);
+  font-size:0.72rem;
+  line-height:1.7;
+}
+.footer a { color:rgba(197,160,89,0.5); text-decoration:none; }
+
+/* =====================================================================
+   HIDDEN
+===================================================================== */
+.hidden { display:none !important; }
+</style>
+</head>
+
+<!-- SVG icon defs -->
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<symbol id="i-mosque" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 21h18M5 21V9l7-6 7 6v12"/>
+  <path d="M9 21V15h6v6"/>
+  <path d="M9 9h.01M15 9h.01"/>
+  <path d="M12 3v3M9 6c0-1.657.895-3 2-3h2c1.105 0 2 1.343 2 3"/>
+</symbol>
+<symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 22s-8-5.686-8-12a8 8 0 0116 0c0 6.314-8 12-8 12z"/><circle cx="12" cy="10" r="2.5"/>
+</symbol>
+<symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.38 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.5 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.47a16 16 0 006.61 6.61l1.03-.78a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+</symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+</symbol>
+<symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+</symbol>
+</defs>
+</svg>
+
+<div class="app">
+
+  <!-- ── HEADER ─────────────────────────────── -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a class="logo" href="#">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 2C7.13 2 4 5.13 4 9c0 3.86 3.13 7 7 7 1.17 0 2.27-.3 3.22-.82C12.1 14.77 11 12.54 11 10c0-2.55 1.1-4.77 2.85-6.3A6.95 6.95 0 0011 2z" fill="#C5A059" opacity="0.9"/>
+              <circle cx="16" cy="4" r="1.4" fill="#C5A059"/>
+            </svg>
+          </div>
+          <div>
+            <div class="logo-text">Prayer Times&nbsp;<span>· San Diego</span></div>
+            <div class="logo-hadith">The Messenger ﷺ said: "Praying in congregation is twenty-seven degrees better than praying alone."</div>
+          </div>
+        </a>
+        <div class="header-right">
+          <div class="clock" id="clock">--:-- --</div>
+          <div class="header-date" id="hdr-date">San Diego, CA</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MASJID DIRECTORY ────────────────────── -->
+  <section class="masjids-section">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-title">Masajid Directory</div>
+        <div class="sec-count">13 Masajid</div>
+      </div>
+
+      <div class="filter-tabs" id="filter-tabs">
+        <button class="ftab active" data-filter="all">All Masajid</button>
+        <button class="ftab" data-filter="integration">🟢 Live Widgets</button>
+        <button class="ftab" data-filter="scrape">🟡 Published Times</button>
+        <button class="ftab" data-filter="fallback">🔴 Adhan Calculated</button>
+        <span class="ftab-sep">|</span>
+        <button class="ftab ftab-loc" data-filter="nearest" id="btn-nearest">📍 Nearest to Me</button>
+      </div>
+
+      <div class="masjids-grid" id="masjids-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NEXT PRAYER ────────────────────────── -->
+  <section class="next-prayer-wrap">
+    <div class="container">
+      <div class="next-prayer-card">
+        <div class="np-top-row">
+          <div class="np-label">Next Prayer — San Diego</div>
+          <div class="hijri-date" id="hijri">Loading&hellip;</div>
+        </div>
+        <div class="np-row">
+          <div>
+            <div class="np-name" id="np-name">Loading</div>
+            <div class="np-time-val" id="np-time"></div>
+          </div>
+          <div class="np-countdown">
+            <div class="np-cd-label">Begins in</div>
+            <div class="np-cd-value" id="np-cd">--:--</div>
+          </div>
+        </div>
+        <div class="prayers-strip" id="prayers-strip">
+          <div class="p-chip skel" style="min-width:74px;height:52px;"></div>
+          <div class="p-chip skel" style="min-width:74px;height:52px;"></div>
+          <div class="p-chip skel" style="min-width:74px;height:52px;"></div>
+          <div class="p-chip skel" style="min-width:74px;height:52px;"></div>
+          <div class="p-chip skel" style="min-width:74px;height:52px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <p>Prayer data sourced from <a href="https://masjidal.com" target="_blank">Masjidal</a>, <a href="https://athanplus.com" target="_blank">Athan+</a>, <a href="https://themasjidapp.org" target="_blank">The Masjid App</a>, and <a href="https://aladhan.com" target="_blank">AlAdhan API</a>.</p>
+      <p>Calculated adhan times use the ISNA method. Iqamah times vary — always confirm with your local masjid.</p>
+      <p id="data-date" style="margin-top:8px; color:rgba(197,160,89,0.45); font-size:0.75rem;"></p>
+    </div>
+  </footer>
+
+</div><!-- .app -->
+
+<script>
+// =====================================================================
+// MASJID DATA
+// =====================================================================
+const MASJIDS = [
+  // ── INTEGRATION — live platforms ──────────────────────────────────
+  { id:'mcc_sandiego',    name:'Muslim Community Center (MCC)',                    address:'14698 Via Fiesta, San Diego, CA 92127',        phone:'(858) 756-5100', website:'https://mccsandiego.org',                       lat:32.9731, lng:-117.0845, type:'integration', platform:'The Masjid App', prayerLink:'https://themasjidapp.org/198/prayers',                                              prayerLinkLabel:'Open on The Masjid App' },
+  { id:'darululoom_sd',   name:'Darululoom San Diego',                             address:'6916 Miramar Rd, San Diego, CA 92121',          phone:'(858) 610-6626', website:'https://darululoomsd.themasjidapp.org',          lat:32.8889, lng:-117.1975, type:'integration', platform:'The Masjid App', prayerLink:'https://themasjidapp.org/195/prayers',                                              prayerLinkLabel:'Open on The Masjid App' },
+  { id:'alribat',         name:'Masjid Ar-Ribat Al-Islami',                        address:'7173 Saranac St, San Diego, CA 92115',          phone:'(619) 589-6200', website:'https://masjidribat.com',                       lat:32.7619, lng:-117.0713, type:'integration', platform:'Athan+',         prayerLink:'https://timing.athanplus.com/masjid/widgets/embed?theme=3&masjid_id=VKpDmoKP', prayerLinkLabel:'Open on Athan+' },
+  { id:'masjid_hamza',    name:'Masjid Hamza — Islamic Center of Mira Mesa',       address:'9625 Black Mountain Rd #204, San Diego, CA 92126', phone:'(619) 571-2988', website:'https://www.masjidhamzasandiego.com',   lat:32.9028, lng:-117.1339, type:'integration', platform:'Masjidal',       prayerLink:'https://masjidal.com/widget/simple/v3?masjid_id=adJq9xAk',                      prayerLinkLabel:'Open on Masjidal' },
+  { id:'masjid_alhuda',   name:'Masjid Al Huda — Huda Community Center',           address:'4175 Bonillo Dr, San Diego, CA 92115',          phone:'(619) 229-9300', website:'http://hudacommunitycenter.org',                 lat:32.7591, lng:-117.0749, type:'integration', platform:'Masjidal WP',    prayerLink:'http://hudacommunitycenter.org',                                                  prayerLinkLabel:'Open Website' },
+  // ── SCRAPE — static html ──────────────────────────────────────────
+  { id:'icsd_main',       name:'Islamic Center of San Diego (ICSD)',               address:'7050 Eckstrom Ave, San Diego, CA 92111',        phone:'(858) 278-5240', website:'https://www.icsd.org',                          lat:32.7923, lng:-117.1418, type:'scrape',   platform:'Website' },
+  { id:'icsd_ec',         name:'Islamic Center of San Diego — East County',        address:'833 Broadway, El Cajon, CA 92021',              phone:'(619) 631-7477', website:'https://www.icsdec.org',                        lat:32.7948, lng:-116.9622, type:'scrape',   platform:'Website' },
+  { id:'masjidul_taqwa',  name:'Masjidul Taqwa',                                   address:'2575 Imperial Ave, San Diego, CA 92102',        phone:'(619) 239-6738', website:'https://www.masjidultaqwasandiego.org',         lat:32.7139, lng:-117.1326, type:'fallback',  note:'Full daily schedule via iOS Taqwa App.' },
+  { id:'masjid_assunnah', name:'Masjid As-Sunnah',                                 address:'4758 Federal Blvd, San Diego, CA 92102',        phone:'(619) 535-8340', website:'https://www.masjidassunnahsd.com',              lat:32.7288, lng:-117.1108, type:'fallback',  note:'Prayer times not yet published online.' },
+  // ── FALLBACK — no iqamah data ─────────────────────────────────────
+  { id:'acic',            name:'Afghan Community Islamic Center (ACIC)',           address:'3333 Sandrock Rd, San Diego, CA 92123',         phone:'(858) 560-9191', website:'https://acicmasjidtawheed.com',                 lat:32.8014, lng:-117.1208, type:'fallback',  note:'SSL expired. Call masjid for iqamah.' },
+  { id:'masjid_alfirdaws',name:'Islamic Center of El Cajon — Masjid Al-Firdaws',  address:'557 El Cajon Blvd, El Cajon, CA 92020',         phone:'(619) 571-2988', website:null,                                            lat:32.7943, lng:-116.9784, type:'fallback',  note:'No website. Call masjid for iqamah.' },
+  { id:'masjid_annur',    name:'Islamic Center of Mid City — Masjid An-Nur',       address:'3872 50th St, San Diego, CA 92105',             phone:'(619) 571-2988', website:null,                                            lat:32.7439, lng:-117.0695, type:'fallback',  note:'No website. Call masjid for iqamah.' },
+  { id:'masjid_omar',     name:'Islamic Center of Logan Heights — Masjid Omar',    address:'3487 Ocean View Blvd, San Diego, CA 92113',     phone:'(619) 571-2988', website:null,                                            lat:32.6927, lng:-117.1122, type:'fallback',  note:'No website. Call masjid for iqamah.' },
+];
+
+// =====================================================================
+// STATE
+// =====================================================================
+let prayerTimes   = null;   // AlAdhan timings for next-prayer strip
+let timingsById   = {};     // masjid id → timings from prayer_times.json
+let dataDate      = null;   // date the JSON was generated
+let currentFilter = 'all';
+let userLat       = null;   // geolocation
+let userLng       = null;
+let sortByNearest = false;
+
+// =====================================================================
+// TIME HELPERS
+// =====================================================================
+function to12h(t) {
+  if (!t) return '—';
+  const [h, m] = t.split(':').map(Number);
+  const ap = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${ap}`;
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2
+    + Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function toMins(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+// =====================================================================
+// CLOCK
+// =====================================================================
+function tickClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true });
+  document.getElementById('hdr-date').textContent =
+    now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+
+  if (prayerTimes) updateNextPrayer(now);
+}
+
+// =====================================================================
+// ALADHAN API
+// =====================================================================
+async function loadPrayerTimes() {
+  try {
+    const r = await fetch(
+      'https://api.aladhan.com/v1/timingsByCity?city=San+Diego&country=US&method=2&school=0'
+    );
+    const d = await r.json();
+    if (d.code !== 200) return;
+
+    prayerTimes = d.data.timings;
+
+    // Hijri date
+    const h = d.data.date.hijri;
+    document.getElementById('hijri').textContent =
+      `${h.day} ${h.month.en} ${h.year} AH`;
+
+    buildPrayersStrip();
+    updateNextPrayer(new Date());
+  } catch(e) {
+    document.getElementById('hijri').textContent = 'San Diego, CA';
+    console.error('AlAdhan:', e);
+  }
+}
+
+// =====================================================================
+// PRAYERS STRIP (next prayer bar)
+// =====================================================================
+const STRIP_PRAYERS = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+
+function buildPrayersStrip() {
+  if (!prayerTimes) return;
+  const now = new Date();
+  const nowM = now.getHours()*60 + now.getMinutes();
+  const strip = document.getElementById('prayers-strip');
+  strip.innerHTML = STRIP_PRAYERS.map(k => {
+    const m = toMins(prayerTimes[k]);
+    const isPast   = m <= nowM;
+    const isActive = isNextPrayer(k, nowM);
+    return `<div class="p-chip${isActive?' active':''}${isPast&&!isActive?' past':''}" id="chip-${k}">
+      <div class="p-chip-name">${k}</div>
+      <div class="p-chip-time">${to12h(prayerTimes[k])}</div>
+    </div>`;
+  }).join('');
+}
+
+function isNextPrayer(key, nowM) {
+  if (!prayerTimes) return false;
+  const active = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+  for (const k of active) {
+    if (toMins(prayerTimes[k]) > nowM) return k === key;
+  }
+  return key === 'Fajr';
+}
+
+// =====================================================================
+// NEXT PRAYER COUNTDOWN
+// =====================================================================
+const SALAH = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+
+function updateNextPrayer(now) {
+  const nowM = now.getHours()*60 + now.getMinutes();
+  let next = null;
+  for (const k of SALAH) {
+    const m = toMins(prayerTimes[k]);
+    if (m > nowM) { next = { name:k, mins:m }; break; }
+  }
+  if (!next) { next = { name:'Fajr (tomorrow)', mins: toMins(prayerTimes['Fajr']) + 1440 }; }
+
+  const rem = next.mins - nowM;
+  const hh  = Math.floor(rem / 60);
+  const mm  = rem % 60;
+
+  document.getElementById('np-name').textContent = next.name;
+  document.getElementById('np-time').textContent = prayerTimes[next.name.replace(' (tomorrow)','')] ?
+    to12h(prayerTimes[next.name.replace(' (tomorrow)','')])  : '';
+  document.getElementById('np-cd').textContent   =
+    hh > 0 ? `${hh}h ${String(mm).padStart(2,'0')}m` : `${mm}m`;
+
+  // Update active chip
+  STRIP_PRAYERS.forEach(k => {
+    const el = document.getElementById(`chip-${k}`);
+    if (!el) return;
+    const key = next.name.replace(' (tomorrow)','');
+    el.classList.toggle('active', k === key);
+  });
+}
+
+// =====================================================================
+// RENDER CARD TIMES SECTION  (data from prayer_times.json)
+// =====================================================================
+function renderTimes(m) {
+  const t = timingsById[m.id];
+
+  // Still loading
+  if (!t) {
+    return `
+      <div class="mtimes">
+        <div class="iq-loading">
+          <div class="iq-spinner"></div>
+          <span>Loading iqamah times&hellip;</span>
+        </div>
+      </div>`;
+  }
+
+  const isCalc = (t.source || '').includes('aladhan_api_calculated');
+  const PRAYERS = [
+    {key:'fajr',    lbl:'Fajr'},
+    {key:'dhuhr',   lbl:'Dhuhr'},
+    {key:'asr',     lbl:'Asr'},
+    {key:'maghrib', lbl:'Maghrib'},
+    {key:'isha',    lbl:'Isha'},
+  ];
+
+  // ─ Prayer times table ─────────────────────────────────────────────
+  // Some values are relative (e.g. "5 mins after sunset") — display as-is
+  function fmtTime(v) {
+    if (!v) return '—';
+    // Pure 24h "HH:MM" (no AM/PM suffix) → convert to 12h
+    if (/^\d{1,2}:\d{2}$/.test(v.trim())) return to12h(v.trim());
+    return v; // already 12h or relative (e.g. "5 mins after sunset")
+  }
+  const rows = PRAYERS
+    .filter(p => t[p.key])
+    .map(p => `<tr><td>${p.lbl}${isCalc ? '' : ' Iqamah'}</td><td>${fmtTime(t[p.key])}</td></tr>`)
+    .join('');
+
+  const sectionLbl = `<p class="pt-label">${isCalc ? 'Adhan — Calculated (ISNA)' : 'Iqamah Times'}</p>`;
+  const tableHTML  = rows ? `<table class="pt-table">${rows}</table>` : '';
+
+  // ─ Jumu'ah ────────────────────────────────────────────────────────
+  const rawJumuah   = t.jumuah || [];
+  const cleanJumuah = rawJumuah.filter(isValidJumuahTime);
+  const labels = t.jumuah_labels || [];
+  const jBlock = cleanJumuah.length ? `
+    <div class="jumuah-block">
+      <div class="jumuah-lbl">Jumu&rsquo;ah Iqamah</div>
+      <div class="jumuah-list">
+        ${cleanJumuah.map((jt, i) => {
+          const lang = labels[i] ? `<span class="jlang">${labels[i]}</span>` : '';
+          return `<div class="jrow"><div class="jdot"></div><div class="jtime">${jt}</div>${lang}</div>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
+  // ─ Calculated note ────────────────────────────────────────────────
+  const calcNote = isCalc ? `
+    <div class="calc-note">
+      <span>⚠</span>
+      <span>Calculated adhan times only — iqamah differs. Call masjid directly.</span>
+    </div>` : '';
+
+  // ─ Extra note (no times, Taqwa app, etc.) ─────────────────────────
+  const noteHTML = m.note && !tableHTML && !jBlock
+    ? `<div class="no-times"><p>${m.note}</p>${m.website ? `<p style="margin-top:6px;"><a href="${m.website}" target="_blank" rel="noopener">Visit website →</a></p>` : ''}</div>`
+    : (m.note && !tableHTML ? `<p class="times-note">${m.note}</p>` : '');
+
+  // ─ Link for integration masjids ───────────────────────────────────
+  const linkBtn = m.prayerLink ? `
+    <a class="ext-btn-sm" href="${m.prayerLink}" target="_blank" rel="noopener">
+      <svg width="12" height="12"><use href="#i-ext"/></svg>
+      ${m.prayerLinkLabel || 'View Live Times'}
+    </a>` : '';
+
+  return `
+    <div class="mtimes">
+      ${sectionLbl}
+      ${tableHTML}
+      ${jBlock}
+      ${calcNote}
+      ${noteHTML}
+      ${linkBtn}
+    </div>`;
+}
+
+// =====================================================================
+// LOAD prayer_times.json (produced by the Python scraper)
+// =====================================================================
+async function loadPrayerData() {
+  try {
+    const r = await fetch(`prayer_times.json?t=${Date.now()}`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d = await r.json();
+    dataDate = d.date || null;
+
+    // Build id → timings lookup across all groups
+    for (const group of Object.values(d.groups || {})) {
+      for (const m of group.masjids || []) {
+        if (m.id && m.timings) timingsById[m.id] = m.timings;
+      }
+    }
+
+    // Re-render with real data
+    renderGrid();
+
+    // Show data freshness in footer
+    const el = document.getElementById('data-date');
+    if (el && dataDate) el.textContent = `Times last updated: ${dataDate}`;
+
+  } catch(e) {
+    console.error('prayer_times.json load failed:', e);
+  }
+}
+
+// Filter out malformed or non-Jumu'ah times from scraper output
+function isValidJumuahTime(t) {
+  const s = String(t || '');
+  const m = s.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!m) return false;
+  let h = parseInt(m[1]);
+  if (m[3].toUpperCase() === 'PM' && h !== 12) h += 12;
+  if (m[3].toUpperCase() === 'AM' && h === 12) h = 0;
+  return h >= 11 && h <= 16; // Jumu'ah is between 11 AM and 4 PM
+}
+
+// =====================================================================
+// BADGE / TYPE LABELS
+// =====================================================================
+const BADGE = {
+  integration: { cls:'integration', label:'🟢 Live' },
+  scrape:      { cls:'scrape',      label:'🟡 Published' },
+  fallback:    { cls:'fallback',    label:'🔴 Calculated' },
+};
+
+// =====================================================================
+// RENDER CARD
+// =====================================================================
+function renderCard(m, distMi) {
+  const b = BADGE[m.type];
+  const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(m.address)}`;
+  const websiteLink = m.website
+    ? `<a class="mlink" href="${m.website}" target="_blank" rel="noopener">
+         <svg width="12" height="12"><use href="#i-globe"/></svg>Website
+       </a>` : '';
+  const phoneLink = m.phone
+    ? `<a class="mlink" href="tel:${m.phone}">
+         <svg width="12" height="12"><use href="#i-phone"/></svg>${m.phone}
+       </a>` : '';
+  const distBadge = distMi != null
+    ? `<div class="dist-badge">📍 ${distMi < 0.1 ? '<0.1' : distMi.toFixed(1)} mi</div>` : '';
+
+  return `
+    <div class="mcard" data-type="${m.type}" id="card-${m.id}">
+      <div class="mcard-arch"></div>
+      ${distBadge}
+      <div class="mcard-head">
+        <div class="mbadge ${b.cls}">${b.label}</div>
+        <div class="mname">${m.name}</div>
+        <a class="maddress" href="${mapsUrl}" target="_blank" rel="noopener">${m.address}</a>
+        <div class="mmeta">${websiteLink}${phoneLink}</div>
+      </div>
+      <div class="mdivider"></div>
+      ${renderTimes(m)}
+    </div>`;
+}
+
+// =====================================================================
+// RENDER GRID
+// =====================================================================
+function renderGrid() {
+  const grid = document.getElementById('masjids-grid');
+  let list = [...MASJIDS];
+
+  if (sortByNearest && userLat !== null) {
+    list.sort((a, b) =>
+      haversine(userLat, userLng, a.lat, a.lng) - haversine(userLat, userLng, b.lat, b.lng)
+    );
+  }
+
+  grid.innerHTML = list.map(m => {
+    const dist = (sortByNearest && userLat !== null)
+      ? haversine(userLat, userLng, m.lat, m.lng) : null;
+    return renderCard(m, dist);
+  }).join('');
+
+  // Re-apply active type filter
+  if (currentFilter !== 'all') {
+    document.querySelectorAll('.mcard').forEach(card => {
+      card.style.display = card.dataset.type === currentFilter ? '' : 'none';
+    });
+  }
+}
+
+// =====================================================================
+// NEAREST SORT  (geolocation)
+// =====================================================================
+function requestNearestSort() {
+  const btn = document.getElementById('btn-nearest');
+  if (!navigator.geolocation) {
+    btn.textContent = '📍 Location unavailable';
+    return;
+  }
+  btn.textContent = '📍 Locating…';
+  btn.disabled = true;
+  sortByNearest = true; // optimistically mark active so renderGrid knows intent
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      btn.textContent = '📍 Nearest to Me';
+      btn.disabled = false;
+      btn.classList.add('active');
+      renderGrid();
+    },
+    err => {
+      console.warn('Geolocation error:', err.message);
+      sortByNearest = false;
+      btn.textContent = '📍 Nearest to Me';
+      btn.disabled = false;
+      btn.classList.remove('active');
+      // Show brief inline error under the tabs
+      let notice = document.getElementById('geo-notice');
+      if (!notice) {
+        notice = document.createElement('p');
+        notice.id = 'geo-notice';
+        notice.style.cssText = 'color:rgba(197,160,89,0.7);font-size:0.78rem;margin:-12px 0 16px;';
+        document.getElementById('filter-tabs').insertAdjacentElement('afterend', notice);
+      }
+      notice.textContent = '📍 Location access denied — allow it in your browser to sort by nearest.';
+      setTimeout(() => notice.remove(), 6000);
+    },
+    { timeout: 10000, maximumAge: 300000 }
+  );
+}
+
+// =====================================================================
+// FILTER TABS
+// =====================================================================
+document.getElementById('filter-tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.ftab');
+  if (!btn) return;
+  const filter = btn.dataset.filter;
+
+  // ── Nearest sort toggle ──────────────────────────────────────────
+  if (filter === 'nearest') {
+    if (sortByNearest) {
+      sortByNearest = false;
+      btn.classList.remove('active');
+      renderGrid();
+    } else {
+      requestNearestSort();
+    }
+    return;
+  }
+
+  // ── Type filters ─────────────────────────────────────────────────
+  currentFilter = filter;
+  document.querySelectorAll('.ftab:not(.ftab-loc)').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+});
+
+// =====================================================================
+// INIT
+// =====================================================================
+tickClock();
+setInterval(tickClock, 1000);
+renderGrid();          // first pass → loading skeletons
+loadPrayerData();      // fills timingsById → re-renders with real data
+loadPrayerTimes();     // AlAdhan → next-prayer strip
+
+// Auto-sort by nearest only if permission already granted (no prompt on load)
+if (navigator.permissions) {
+  navigator.permissions.query({ name: 'geolocation' }).then(result => {
+    if (result.state === 'granted') requestNearestSort();
+  });
+}
+</script>
+</body>
+</html>

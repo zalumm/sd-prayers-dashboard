@@ -1,0 +1,218 @@
+{
+  "_meta": {
+    "project": "San Diego Masjid Prayer Times",
+    "last_updated": "2026-04-11",
+    "groups": {
+      "integration": "Masjid has a live platform integration with real iqamah times managed by staff. Pull from platform URL — no website scraping needed.",
+      "scrape": "Masjid publishes iqamah times as static HTML on their website. Must be scraped. Times change seasonally.",
+      "fallback": "No website, inaccessible, or no iqamah data on any platform. AlAdhan calculated ADHAN times used as proxy — NOT iqamah. Contact masjid directly."
+    }
+  },
+
+  "integration": {
+    "_label": "🟢 INTEGRATION — Live platform, auto-updating iqamah times",
+    "_note": "Do NOT scrape these masjids' main websites. Pull from the platform URL.",
+    "masjids": [
+      {
+        "id": "mcc_sandiego",
+        "name": "Muslim Community Center of Greater San Diego (MCC)",
+        "address": "14698 Via Fiesta, San Diego, CA 92127",
+        "phone": "(858) 756-5100",
+        "website": "https://mccsandiego.org",
+        "platform": "The Masjid App",
+        "platform_id": 198,
+        "prayers_url": "https://themasjidapp.org/198/prayers",
+        "fetch_method": "GET prayers_url — HTML table with Begins + Iqama columns",
+        "notes": "MCC is claimed on The Masjid App — staff actively manage iqamah. 'Updated today' label confirms live data."
+      },
+      {
+        "id": "alribat",
+        "name": "Al-Ribat Mosque (Masjid Ar-Ribat Al-Islami)",
+        "address": "7173 Saranac St, San Diego, CA 92115",
+        "phone": "(619) 589-6200",
+        "website": "https://masjidribat.com",
+        "platform": "Athan+ (Masjidal)",
+        "platform_id": "VKpDmoKP",
+        "prayers_url": "https://timing.athanplus.com/masjid/widgets/embed?theme=3&masjid_id=VKpDmoKP",
+        "monthly_url": "https://timing.athanplus.com/masjid/widgets/monthly?theme=1&masjid_id=VKpDmoKP",
+        "iframe_embed": "<iframe src='https://timing.athanplus.com/masjid/widgets/embed?theme=3&masjid_id=VKpDmoKP' width='100%' height='420' frameborder='0' scrolling='no'></iframe>",
+        "fetch_method": "GET prayers_url — HTML table with STARTS + IQAMAH columns",
+        "notes": "platform_id confirmed from timing.athanplus.com embed found on site."
+      },
+      {
+        "id": "masjid_hamza",
+        "name": "Islamic Center of Mira Mesa (Masjid Hamza)",
+        "address": "9625 Black Mountain Rd #204, San Diego, CA 92126",
+        "phone": "(619) 571-2988",
+        "website": "https://www.masjidhamzasandiego.com",
+        "platform": "Masjidal (widget v3)",
+        "platform_id": "adJq9xAk",
+        "prayers_url": "https://masjidal.com/widget/simple/v3?masjid_id=adJq9xAk",
+        "monthly_url": "https://masjidal.com/widget/monthly/v3/?masjid_id=adJq9xAk",
+        "iframe_embed": "<iframe src='https://masjidal.com/widget/simple/v3?masjid_id=adJq9xAk' width='100%' height='420' frameborder='0' scrolling='no'></iframe>",
+        "fetch_method": "GET prayers_url — HTML with ATHAN + IQAMAH blocks",
+        "notes": "platform_id confirmed from <a href> link in homepage HTML."
+      },
+      {
+        "id": "darululoom_sd",
+        "name": "Darululoom San Diego (Crescent Academy)",
+        "address": "6916 Miramar Rd, San Diego, CA 92121",
+        "phone": "(858) 610-6626",
+        "website": "https://darululoomsd.themasjidapp.org",
+        "platform": "The Masjid App",
+        "platform_id": 195,
+        "prayers_url": "https://themasjidapp.org/195/prayers",
+        "fetch_method": "GET prayers_url — HTML table with Begins + Iqama columns",
+        "notes": "Claimed on The Masjid App since Jan 2025. 477 followers. 3 Jumu'ah sessions with separate iqamah times."
+      },
+      {
+        "id": "masjid_alhuda",
+        "name": "Masjid Al Huda (Huda Community Center)",
+        "address": "4175 Bonillo Dr, San Diego, CA 92115",
+        "phone": "(619) 229-9300",
+        "website": "http://hudacommunitycenter.org",
+        "platform": "Masjidal (WordPress plugin)",
+        "platform_id": "unknown — retrieve from portal.masjidal.com Integrations tab",
+        "prayers_url": "http://hudacommunitycenter.org",
+        "fetch_method": "Scrape homepage — Masjidal WP plugin renders full adhan + iqamah directly in page HTML",
+        "notes": "platform_id is in PHP runtime, not in rendered HTML. Times ARE fully rendered in page — parse directly."
+      }
+    ]
+  },
+
+  "scrape": {
+    "_label": "🟡 SCRAPE — Iqamah times in static HTML on website",
+    "_note": "Scrape their homepage. Times change seasonally — re-scrape weekly.",
+    "masjids": [
+      {
+        "id": "icsd_main",
+        "name": "Islamic Center of San Diego (ICSD)",
+        "address": "7050 Eckstrom Ave, San Diego, CA 92111",
+        "phone": "(858) 278-5240",
+        "website": "https://www.icsd.org",
+        "platform": "Goodbricks / Wix",
+        "scrape_url": "https://www.icsd.org",
+        "scrape_method": "BeautifulSoup — IQAMA TIMES block in <td>, regex on prayer name keys",
+        "scrape_frequency": "weekly",
+        "known_times": {
+          "fajr": "30 mins after adhan",
+          "dhuhr": "1:15 PM",
+          "asr": "4:45 PM",
+          "maghrib": "10 mins after sunset",
+          "isha": "8:45 PM",
+          "jumuah": ["12:30 PM", "2:00 PM"],
+          "as_of": "April 2026"
+        }
+      },
+      {
+        "id": "icsd_ec",
+        "name": "Islamic Center of San Diego East County",
+        "address": "833 Broadway, El Cajon, CA 92021",
+        "phone": "(619) 631-7477",
+        "website": "https://www.icsdec.org",
+        "platform": "Goodbricks / Wix",
+        "scrape_url": "https://www.icsdec.org",
+        "scrape_method": "BeautifulSoup — IQAMAH TIMES section, Fajr + 4 Jumu'ah sessions",
+        "scrape_frequency": "weekly",
+        "known_times": {
+          "fajr": "5:45 AM",
+          "jumuah": ["11:30 AM (Arabic)", "12:15 PM (English)", "1:00 PM (Arabic)", "1:45 PM (English)"],
+          "as_of": "April 2026"
+        },
+        "notes": "Only Fajr iqamah on site. 4 Jumu'ah sessions."
+      },
+      {
+        "id": "masjidul_taqwa",
+        "name": "Masjidul Taqwa",
+        "address": "2575 Imperial Ave, San Diego, CA 92102",
+        "phone": "(619) 239-6738",
+        "website": "https://www.masjidultaqwasandiego.org",
+        "platform": "Custom HTML",
+        "scrape_url": "https://www.masjidultaqwasandiego.org",
+        "scrape_method": "BeautifulSoup — Jumu'ah time in page body only",
+        "scrape_frequency": "monthly",
+        "known_times": {
+          "jumuah": ["1:00 PM"],
+          "as_of": "April 2026"
+        },
+        "notes": "Jumu'ah only on site. Full daily schedule via iOS Taqwa App."
+      },
+      {
+        "id": "masjid_assunnah",
+        "name": "Masjid As-Sunnah",
+        "address": "4758 Federal Blvd, San Diego, CA 92102",
+        "phone": "(619) 535-8340",
+        "website": "https://www.masjidassunnahsd.com",
+        "platform": "Astro (custom static site)",
+        "scrape_url": "https://www.masjidassunnahsd.com",
+        "scrape_method": "BeautifulSoup — no times currently, monitor each run",
+        "scrape_frequency": "weekly (monitoring)",
+        "notes": "No prayer times on site yet. Follow @masjidassunnahsd on Instagram."
+      }
+    ]
+  },
+
+  "fallback": {
+    "_label": "🔴 FALLBACK — No live iqamah data. AlAdhan calculated ADHAN times only.",
+    "_note": "Contact each masjid directly for real iqamah times.",
+    "_aladhan_api": "https://api.aladhan.com/v1/timingsByCity?city=San+Diego&country=US&method=2&school=0",
+    "masjids": [
+      {
+        "id": "acic",
+        "name": "Afghan Community Islamic Center (ACIC)",
+        "address": "3333 Sandrock Rd, San Diego, CA 92123",
+        "phone": "(858) 560-9191",
+        "website": "https://acicmasjidtawheed.com",
+        "reason": "SSL certificate expired — site inaccessible",
+        "notes": "4.9⭐. Check monthly — if SSL renewed, can be scraped."
+      },
+      {
+        "id": "masjid_alfirdaws",
+        "name": "Islamic Center of El Cajon (Masjid Al-Firdaws)",
+        "address": "557 El Cajon Blvd, El Cajon, CA 92020",
+        "phone": "(619) 571-2988",
+        "website": null,
+        "reason": "No website"
+      },
+      {
+        "id": "masjid_annur",
+        "name": "Islamic Center of Mid City (Masjid An-Nur)",
+        "address": "3872 50th St, San Diego, CA 92105",
+        "phone": "(619) 571-2988",
+        "website": null,
+        "reason": "No website"
+      },
+      {
+        "id": "masjid_omar",
+        "name": "Islamic Center of Logan Heights (Masjid Omar)",
+        "address": "3487 Ocean View Blvd, San Diego, CA 92113",
+        "phone": "(619) 571-2988",
+        "website": null,
+        "reason": "No website"
+      }
+    ]
+  },
+
+  "summary": {
+    "total": 13,
+    "integration": {
+      "count": 5,
+      "ids": ["mcc_sandiego", "darululoom_sd", "alribat", "masjid_hamza", "masjid_alhuda"],
+      "platforms": {
+        "mcc_sandiego":  "The Masjid App (id=198) — themasjidapp.org/198/prayers",
+        "darululoom_sd": "The Masjid App (id=195) — themasjidapp.org/195/prayers",
+        "alribat":       "Athan+ / Masjidal (id=VKpDmoKP) — timing.athanplus.com",
+        "masjid_hamza":  "Masjidal widget (id=adJq9xAk) — masjidal.com/widget/simple/v3",
+        "masjid_alhuda": "Masjidal WP plugin (id=unknown) — times in rendered page HTML"
+      }
+    },
+    "scrape": {
+      "count": 4,
+      "ids": ["icsd_main", "icsd_ec", "masjidul_taqwa", "masjid_assunnah"]
+    },
+    "fallback": {
+      "count": 4,
+      "ids": ["acic", "masjid_alfirdaws", "masjid_annur", "masjid_omar"]
+    }
+  }
+}

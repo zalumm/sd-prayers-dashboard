@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-11T13:31:17.330656+00:00",
-  "date": "2026-04-11",
+  "generated_at": "2026-04-12T10:44:01.481255+00:00",
+  "date": "2026-04-12",
   "summary": {
     "total": 13,
     "integration_count": 5,
-    "scrape_count": 2,
-    "fallback_count": 6
+    "scrape_count": 4,
+    "fallback_count": 4
   },
   "groups": {
     "integration": {
@@ -21,19 +21,19 @@
           "data_group": "integration",
           "masjidal_id": null,
           "timings": {
-            "fajr": "5:45 AM",
+            "fajr": "5:30 AM",
             "dhuhr": "1:15 PM",
             "asr": "6:00 PM",
-            "maghrib": "7:16 PM",
-            "isha": "8:45 PM",
+            "maghrib": "7:22 PM",
+            "isha": "9:00 PM",
             "jumuah": [
               "01:15 PM",
               "02:15 PM",
               "03:20 PM"
             ],
-            "sunrise": "6:32 AM",
+            "sunrise": "6:22 AM",
             "source": "themasjidapp_live (id=195)",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "Live iqamah times via The Masjid App (Darululoom claimed, staff-managed). 3 Jumu'ah sessions."
           }
         },
@@ -46,18 +46,18 @@
           "data_group": "integration",
           "masjidal_id": null,
           "timings": {
-            "fajr": "6:00 AM",
+            "fajr": "5:45 AM",
             "dhuhr": "1:30 PM",
             "asr": "5:45 PM",
-            "maghrib": "7:21 PM",
+            "maghrib": "7:26 PM",
             "isha": "8:45 PM",
             "jumuah": [
               "1:00 PM",
               "2:00 PM"
             ],
-            "sunrise": "6:32 AM",
+            "sunrise": "6:24 AM",
             "source": "themasjidapp_live (id=198)",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "Live iqamah times via The Masjid App (MCC claimed, staff-managed)"
           }
         },
@@ -75,12 +75,10 @@
             "asr": "4:45 PM",
             "maghrib": "7:23 PM",
             "isha": "8:45 PM",
-            "jumuah": [
-              "1:00 PM"
-            ],
-            "sunrise": "6:23 AM",
+            "jumuah": [],
+            "sunrise": "6:22 AM",
             "source": "athanplus_live (masjid_id=VKpDmoKP)",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "Live iqamah times via Athan+/Masjidal. masjid_id=VKpDmoKP"
           }
         },
@@ -93,15 +91,15 @@
           "data_group": "integration",
           "masjidal_id": "adJq9xAk",
           "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": "06:24",
+            "fajr": "05:12",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:17",
+            "isha": "20:27",
+            "sunrise": "06:22",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "Masjidal widget parse failed for masjid_id=adJq9xAk"
           }
         },
@@ -121,11 +119,11 @@
             "isha": "8:45 PM",
             "jumuah": [
               "Khutbah: 1:30 PM",
-              "Prayer: 6:23 AM"
+              "Prayer: 6:22 AM"
             ],
             "sunrise": null,
             "source": "scraped_hudacommunitycenter.org (Masjidal plugin)",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "Live iqamah times scraped from Masjidal WordPress plugin rendered HTML"
           }
         }
@@ -155,7 +153,7 @@
             ],
             "sunrise": null,
             "source": "scraped_icsd.org",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "Iqamah times manually maintained by ICSD \u2014 updated seasonally"
           }
         },
@@ -171,8 +169,8 @@
             "fajr": "5:45 AM",
             "dhuhr": "1:15 PM",
             "asr": "4:45 PM",
-            "maghrib": "5 mins after sunset",
-            "isha": "8:45 PM",
+            "maghrib": "5 Mins After Sunset",
+            "isha": null,
             "jumuah": [
               "11:30 AM",
               "12:15 PM",
@@ -181,14 +179,52 @@
             ],
             "sunrise": null,
             "source": "scraped_icsdec.org",
-            "last_updated": "2026-04-11",
-            "notes": "ICSD East County \u2014 full iqamah schedule. 4 Jumu'ah khutbah sessions (each 20 min including prayer). Arabic sessions at 11:30 AM & 1:00 PM; English at 12:15 PM & 1:45 PM.",
-            "jumuah_labels": [
-              "Arabic",
-              "English",
-              "Arabic",
-              "English"
-            ]
+            "last_updated": "2026-04-12",
+            "notes": "ICSD East County \u2014 full iqamah schedule. 4 Jumu'ah khutbah sessions (20 min each including prayer): Arabic at 11:30 AM & 1:00 PM; English at 12:15 PM & 1:45 PM."
+          }
+        },
+        {
+          "id": "masjidul_taqwa",
+          "name": "Masjidul Taqwa",
+          "address": "2575 Imperial Ave, San Diego, CA 92102",
+          "phone": "(619) 239-6738",
+          "website": "https://www.masjidultaqwasandiego.org",
+          "data_group": "scrape",
+          "masjidal_id": null,
+          "timings": {
+            "fajr": null,
+            "dhuhr": null,
+            "asr": null,
+            "maghrib": null,
+            "isha": null,
+            "jumuah": [
+              "1:00 PM"
+            ],
+            "sunrise": null,
+            "source": "scraped_masjidultaqwasandiego.org",
+            "last_updated": "2026-04-12",
+            "notes": "Jumu'ah 1:00\u20131:30 PM. Full daily schedule via iOS Taqwa App."
+          }
+        },
+        {
+          "id": "masjid_assunnah",
+          "name": "Masjid As-Sunnah",
+          "address": "4758 Federal Blvd, San Diego, CA 92102",
+          "phone": "(619) 535-8340",
+          "website": "https://www.masjidassunnahsd.com",
+          "data_group": "scrape",
+          "masjidal_id": null,
+          "timings": {
+            "fajr": "05:12",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:17",
+            "isha": "20:27",
+            "sunrise": "06:22",
+            "jumuah": [],
+            "source": "aladhan_api_calculated",
+            "last_updated": "2026-04-12",
+            "notes": "No prayer times on masjidassunnahsd.com \u2014 showing calculated adhan. Contact: (619) 535-8340 or @masjidassunnahsd"
           }
         }
       ]
@@ -206,15 +242,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": "06:24",
+            "fajr": "05:12",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:17",
+            "isha": "20:27",
+            "sunrise": "06:22",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "ACIC site SSL expired \u2014 using calculated times"
           }
         },
@@ -227,15 +263,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": "06:24",
+            "fajr": "05:12",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:17",
+            "isha": "20:27",
+            "sunrise": "06:22",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "No website \u2014 using calculated adhan times"
           }
         },
@@ -248,15 +284,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": "06:24",
+            "fajr": "05:12",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:17",
+            "isha": "20:27",
+            "sunrise": "06:22",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "No website \u2014 using calculated adhan times"
           }
         },
@@ -269,58 +305,16 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": "06:24",
+            "fajr": "05:12",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:17",
+            "isha": "20:27",
+            "sunrise": "06:22",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
+            "last_updated": "2026-04-12",
             "notes": "No website \u2014 using calculated adhan times"
-          }
-        },
-        {
-          "id": "masjidul_taqwa",
-          "name": "Masjidul Taqwa",
-          "address": "2575 Imperial Ave, San Diego, CA 92102",
-          "phone": "(619) 239-6738",
-          "website": "https://www.masjidultaqwasandiego.org",
-          "data_group": "fallback",
-          "masjidal_id": null,
-          "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": null,
-            "jumuah": [],
-            "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
-            "notes": "No prayer times on website. Full schedule via iOS Taqwa App. Showing calculated adhan times (ISNA) as reference."
-          }
-        },
-        {
-          "id": "masjid_assunnah",
-          "name": "Masjid As-Sunnah",
-          "address": "4758 Federal Blvd, San Diego, CA 92102",
-          "phone": "(619) 535-8340",
-          "website": "https://www.masjidassunnahsd.com",
-          "data_group": "fallback",
-          "masjidal_id": null,
-          "timings": {
-            "fajr": "05:14",
-            "dhuhr": "12:50",
-            "asr": "16:26",
-            "maghrib": "19:16",
-            "isha": "20:26",
-            "sunrise": "06:24",
-            "jumuah": [],
-            "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-11",
-            "notes": "Prayer times not published online. Showing calculated adhan times (ISNA) as reference."
           }
         }
       ]

@@ -91,16 +91,16 @@
           "data_group": "integration",
           "masjidal_id": "adJq9xAk",
           "timings": {
-            "fajr": "05:10",
-            "dhuhr": "12:49",
-            "asr": "16:25",
-            "maghrib": "19:18",
-            "isha": "20:29",
-            "sunrise": "06:20",
-            "jumuah": [],
-            "source": "aladhan_api_calculated",
+            "fajr": "5:30 AM",
+            "dhuhr": "1:15 PM",
+            "asr": "6:15 PM",
+            "maghrib": "7:25 PM",
+            "isha": "9:00 PM",
+            "sunrise": "6:20 AM",
+            "jumuah": ["1:15 PM", "2:15 PM"],
+            "source": "masjidal_widget_live (masjid_id=adJq9xAk)",
             "last_updated": "2026-04-14",
-            "notes": "Masjidal widget parse failed for masjid_id=adJq9xAk"
+            "notes": "Live iqamah times via Masjidal widget. masjid_id=adJq9xAk"
           }
         },
         {

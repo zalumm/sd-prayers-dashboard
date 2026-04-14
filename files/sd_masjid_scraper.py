@@ -243,23 +243,42 @@ def scrape_masjidal_widget(masjid_id, name=""):
         "sunrise": "sunrise"
     }
 
-    # Masjidal widget: each prayer block has "PRAYER\nATHAN\ntime\nIQAMAH\ntime"
+    # Masjidal widget v3 structure per prayer:
+    #   "FAJR ATHAN 4:54AM 5:30AM IQAMAH"
+    # Iqamah is the time that appears immediately BEFORE the "IQAMAH" label.
+    TIME_RE = r"([\d]{1,2}:[\d]{2}\s*[AP]M)"
     for prayer, key in prayer_map.items():
-        # Find iqamah time after prayer name
-        pattern = rf"{prayer.upper()}[^0-9]*?IQAMAH[^0-9]*?([\d]{{1,2}}:[\d]{{2}}\s*[AP]M)"
-        m = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+        # Primary: PRAYER ATHAN time time IQAMAH — capture second time (iqamah)
+        pat = rf"{prayer.upper()}\s+ATHAN\s+{TIME_RE}\s+{TIME_RE}\s+IQAMAH"
+        m = re.search(pat, text, re.IGNORECASE)
         if m:
-            result[key] = clean_time(m.group(1))
-        else:
-            # Fallback: grab any time near the prayer name
-            pattern2 = rf"{prayer.upper()}[^0-9]*?([\d]{{1,2}}:[\d]{{2}}\s*[AP]M)"
-            m2 = re.search(pattern2, text, re.IGNORECASE)
-            if m2:
-                result[key] = clean_time(m2.group(1))
+            result[key] = clean_time(m.group(2))
+            continue
+        # Fallback A: time immediately before IQAMAH, within prayer block
+        pat2 = rf"{prayer.upper()}.*?{TIME_RE}\s+IQAMAH"
+        m2 = re.search(pat2, text, re.IGNORECASE | re.DOTALL)
+        if m2:
+            result[key] = clean_time(m2.group(1))
+            continue
+        # Fallback B: any time after prayer name
+        pat3 = rf"{prayer.upper()}[^0-9]*?{TIME_RE}"
+        m3 = re.search(pat3, text, re.IGNORECASE)
+        if m3:
+            result[key] = clean_time(m3.group(1))
 
-    # Jumuah
-    jumuah = re.findall(r"JUM(?:U|\')?AH[^\d]*([\d:]+\s*[AP]M)", text)
-    result["jumuah"] = [clean_time(t) for t in dict.fromkeys(jumuah)]
+    # Jumu'ah — Masjidal widget shows times around the JUMU'AH label:
+    #   "1:15PM JUMU'AH 2:15PM SUNRISE"
+    # Capture time immediately before AND immediately after the label.
+    jumuah_times = []
+    m_before = re.search(rf"{TIME_RE}\s+JUM(?:U|')?AH", text, re.IGNORECASE)
+    if m_before:
+        jumuah_times.append(clean_time(m_before.group(1)))
+    m_after = re.search(r"JUM(?:U|')?AH\s+" + TIME_RE, text, re.IGNORECASE)
+    if m_after:
+        t = clean_time(m_after.group(1))
+        if t and t not in jumuah_times:
+            jumuah_times.append(t)
+    result["jumuah"] = jumuah_times
 
     if result["fajr"] or result["isha"]:
         return result

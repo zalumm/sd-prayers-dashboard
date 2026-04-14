@@ -75,7 +75,7 @@
             "asr": "4:45 PM",
             "maghrib": "7:25 PM",
             "isha": "8:45 PM",
-            "jumuah": [],
+            "jumuah": ["1:00 PM"],
             "sunrise": "6:20 AM",
             "source": "athanplus_live (masjid_id=VKpDmoKP)",
             "last_updated": "2026-04-14",
@@ -118,8 +118,8 @@
             "maghrib": "7:28 PM",
             "isha": "8:45 PM",
             "jumuah": [
-              "Khutbah: 1:30 PM",
-              "Prayer: 6:20 AM"
+              "Khutbah: 1:15 PM",
+              "Prayer: 1:30 PM"
             ],
             "sunrise": null,
             "source": "scraped_hudacommunitycenter.org (Masjidal plugin)",
@@ -192,18 +192,16 @@
           "data_group": "scrape",
           "masjidal_id": null,
           "timings": {
-            "fajr": null,
-            "dhuhr": null,
-            "asr": null,
-            "maghrib": null,
-            "isha": null,
-            "jumuah": [
-              "62:9 PM"
-            ],
-            "sunrise": null,
-            "source": "scraped_masjidultaqwasandiego.org",
+            "fajr": "05:10",
+            "dhuhr": "12:49",
+            "asr": "16:25",
+            "maghrib": "19:18",
+            "isha": "20:29",
+            "jumuah": ["1:00 PM"],
+            "sunrise": "06:20",
+            "source": "aladhan_api_calculated",
             "last_updated": "2026-04-14",
-            "notes": "Jumu'ah 1:00\u20131:30 PM. Full daily schedule via iOS Taqwa App."
+            "notes": "Jumu'ah 1:00 PM. Full daily schedule via iOS Taqwa App. Showing calculated adhan times as reference."
           }
         },
         {
@@ -221,7 +219,7 @@
             "maghrib": "19:18",
             "isha": "20:29",
             "sunrise": "06:20",
-            "jumuah": [],
+            "jumuah": ["1:00 PM"],
             "source": "aladhan_api_calculated",
             "last_updated": "2026-04-14",
             "notes": "No prayer times on masjidassunnahsd.com \u2014 showing calculated adhan. Contact: (619) 535-8340 or @masjidassunnahsd"

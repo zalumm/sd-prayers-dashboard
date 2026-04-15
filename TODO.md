@@ -19,11 +19,6 @@ For each: determine if live scrape is possible, otherwise use fallback (calculat
   - Website: https://www.loganisc.org
   - Notes: Distinct from Masjid Omar (3487 Ocean View Blvd)
 
-- [ ] **Noor Collective (Shia / Jafari Islamic Center)**
-  - Address: 7969 Engineer Rd, Suite 110, San Diego, CA 92111
-  - Website: https://noorcollective.org
-  - Notes: Only Shia center in San Diego County
-
 ---
 
 ### El Cajon

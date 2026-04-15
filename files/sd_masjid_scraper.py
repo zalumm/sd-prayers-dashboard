@@ -154,13 +154,15 @@ def aladhan_fallback(note="Calculated adhan times (no iqamah data for this masji
 # Athan+ / Masjidal Live Scrapers
 # ─────────────────────────────────────────────────────────
 
-def scrape_athanplus(masjid_id, name=""):
+def scrape_athanplus(masjid_id, name="", known_jumuah=None):
     """
     Fetch timing.athanplus.com embed page and parse adhan + iqamah times.
     The embed renders full HTML — no JS needed.
 
     Confirmed working for:
       Al-Ribat → VKpDmoKP
+
+    known_jumuah: static fallback list used when the embed has no Jumu'ah times.
     """
     url = ATHANPLUS_EMBED.format(masjid_id=masjid_id)
     print(f"  → Athan+ embed: {url}")
@@ -205,7 +207,8 @@ def scrape_athanplus(masjid_id, name=""):
     jumuah_matches = re.findall(r"JUMUAH\s+([\d:]+\s*[AP]M)", text)
     if not jumuah_matches:
         jumuah_matches = re.findall(r"JUM[^\d]*([\d:]+\s*[AP]M)", text)
-    result["jumuah"] = [clean_time(t) for t in dict.fromkeys(jumuah_matches)]
+    parsed_jumuah = [clean_time(t) for t in dict.fromkeys(jumuah_matches)]
+    result["jumuah"] = parsed_jumuah if parsed_jumuah else (known_jumuah or [])
 
     if result["fajr"] or result["isha"]:
         return result
@@ -394,7 +397,10 @@ def scrape_taqwa():
     print("  → Scraping masjidultaqwasandiego.org...")
     html = fetch("https://www.masjidultaqwasandiego.org")
     if not html:
-        return aladhan_fallback("Masjidul Taqwa site unavailable")
+        result = aladhan_fallback("Masjidul Taqwa site unavailable")
+        result["jumuah"] = ["1:00 PM"]
+        result["notes"] = "Jumu'ah 1:00 PM. Full daily schedule via iOS Taqwa App. Showing calculated adhan times as reference."
+        return result
 
     text = BeautifulSoup(html, "lxml").get_text(" ", strip=True).upper()
     result = empty_times()
@@ -414,7 +420,16 @@ def scrape_taqwa():
 
     m = re.search(r"JUM(?:U|\')?AH[^\d]*([\d:]+)", text)
     result["jumuah"] = [clean_time(m.group(1)) + " PM"] if m else ["1:00 PM"]
-    result["notes"] = "Jumu'ah 1:00–1:30 PM. Full daily schedule via iOS Taqwa App."
+    result["notes"] = "Jumu'ah 1:00 PM. Full daily schedule via iOS Taqwa App."
+
+    # Site only publishes Jumu'ah — supplement daily prayers with calculated adhan times
+    if not result["fajr"] and not result["isha"]:
+        aladhan = aladhan_fallback("")
+        for k in ("fajr", "dhuhr", "asr", "maghrib", "isha", "sunrise"):
+            result[k] = aladhan[k]
+        result["source"] = "aladhan_api_calculated"
+        result["notes"] = "Jumu'ah 1:00 PM. Full daily schedule via iOS Taqwa App. Showing calculated adhan times as reference."
+
     return result
 
 
@@ -454,9 +469,9 @@ def scrape_huda():
             # Prefer second time (iqamah), fallback to first (adhan)
             result[key] = clean_time(m.group(2)) if m.group(2) else clean_time(m.group(1))
 
-    # Jumu'ah
-    khutbah = re.search(r"KHUTBAH\s+([\d:]+\s*[AP]M)", text)
-    jumuah_prayer = re.search(r"JUM[^\d]*([\d:]+\s*[AP]M)", text)
+    # Jumu'ah — Masjidal renders time BEFORE its label, e.g. "1:15 PM Khutbah 1:30 PM Jumu'ah"
+    khutbah = re.search(r"([\d:]+\s*[AP]M)\s*KHUTBAH", text)
+    jumuah_prayer = re.search(r"([\d:]+\s*[AP]M)\s*JUM(?:U|')?AH", text)
     result["jumuah"] = []
     if khutbah:
         result["jumuah"].append(f"Khutbah: {clean_time(khutbah.group(1))}")
@@ -492,15 +507,18 @@ def scrape_sunnah():
         if found:
             result = empty_times()
             result.update(found)
+            result["jumuah"] = ["1:00 PM"]
             result["source"] = "scraped_masjidassunnahsd.com"
             result["last_updated"] = TODAY
             result["notes"] = "Prayer times scraped from masjidassunnahsd.com"
             return result
 
-    return aladhan_fallback(
+    result = aladhan_fallback(
         "No prayer times on masjidassunnahsd.com — showing calculated adhan. "
         "Contact: (619) 535-8340 or @masjidassunnahsd"
     )
+    result["jumuah"] = ["1:00 PM"]
+    return result
 
 
 def scrape_darululoom():
@@ -641,7 +659,7 @@ MASJIDS = [
         "phone": "(619) 589-6200",
         "website": "https://masjidribat.com",
         "masjidal_id": "VKpDmoKP",    # ✅ CONFIRMED — timing.athanplus.com
-        "scraper": lambda: scrape_athanplus("VKpDmoKP", "Al-Ribat"),
+        "scraper": lambda: scrape_athanplus("VKpDmoKP", "Al-Ribat", known_jumuah=["1:00 PM"]),
     },
     {
         "id": "masjid_hamza",

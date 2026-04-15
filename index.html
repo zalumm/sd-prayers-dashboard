@@ -1103,15 +1103,28 @@ function renderGrid() {
 // =====================================================================
 // NEAREST SORT  (geolocation)
 // =====================================================================
-function requestNearestSort() {
+function showGeoNotice(msg) {
+  let notice = document.getElementById('geo-notice');
+  if (!notice) {
+    notice = document.createElement('p');
+    notice.id = 'geo-notice';
+    notice.style.cssText = 'color:rgba(197,160,89,0.7);font-size:0.78rem;margin:-12px 0 16px;';
+    document.getElementById('filter-tabs').insertAdjacentElement('afterend', notice);
+  }
+  notice.textContent = msg;
+  clearTimeout(notice._timer);
+  notice._timer = setTimeout(() => notice.remove(), 7000);
+}
+
+function requestNearestSort(silent) {
   const btn = document.getElementById('btn-nearest');
   if (!navigator.geolocation) {
-    btn.textContent = '📍 Location unavailable';
+    if (!silent) showGeoNotice('📍 Geolocation not supported by this browser.');
     return;
   }
   btn.textContent = '📍 Locating…';
   btn.disabled = true;
-  sortByNearest = true; // optimistically mark active so renderGrid knows intent
+  sortByNearest = true;
 
   navigator.geolocation.getCurrentPosition(
     pos => {
@@ -1123,23 +1136,20 @@ function requestNearestSort() {
       renderGrid();
     },
     err => {
-      console.warn('Geolocation error:', err.message);
+      console.warn('Geolocation error:', err.code, err.message);
       sortByNearest = false;
       btn.textContent = '📍 Nearest to Me';
       btn.disabled = false;
       btn.classList.remove('active');
-      // Show brief inline error under the tabs
-      let notice = document.getElementById('geo-notice');
-      if (!notice) {
-        notice = document.createElement('p');
-        notice.id = 'geo-notice';
-        notice.style.cssText = 'color:rgba(197,160,89,0.7);font-size:0.78rem;margin:-12px 0 16px;';
-        document.getElementById('filter-tabs').insertAdjacentElement('afterend', notice);
-      }
-      notice.textContent = '📍 Location access denied — allow it in your browser to sort by nearest.';
-      setTimeout(() => notice.remove(), 6000);
+      if (silent) return; // don't show notice on auto-attempt
+      const msgs = {
+        1: '📍 Location permission denied — click the lock icon in your address bar to allow it.',
+        2: '📍 Location unavailable — your browser or OS could not determine your position.',
+        3: '📍 Location request timed out — try again.',
+      };
+      showGeoNotice(msgs[err.code] || '📍 Location error — could not get your position.');
     },
-    { timeout: 10000, maximumAge: 300000 }
+    { timeout: 8000, maximumAge: 300000 }
   );
 }
 
@@ -1179,11 +1189,15 @@ renderGrid();          // first pass → loading skeletons
 loadPrayerData();      // fills timingsById → re-renders with real data
 loadPrayerTimes();     // AlAdhan → next-prayer strip
 
-// Auto-sort by nearest only if permission already granted (no prompt on load)
+// Auto-request location on load — prompts if not yet decided, silently sorts if already granted
 if (navigator.permissions) {
   navigator.permissions.query({ name: 'geolocation' }).then(result => {
-    if (result.state === 'granted') requestNearestSort();
+    if (result.state === 'denied') return; // user explicitly blocked — don't pester them
+    requestNearestSort(result.state === 'granted'); // silent on auto (already granted); show errors on first prompt
   });
+} else if (navigator.geolocation) {
+  // Browsers without Permissions API — just try silently
+  requestNearestSort(true);
 }
 </script>
 </body>

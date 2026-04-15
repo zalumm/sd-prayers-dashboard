@@ -744,6 +744,16 @@ MASJIDS = [
         "masjidal_id": None,
         "scraper": lambda: aladhan_fallback("No website — using calculated adhan times"),
     },
+    {
+        "id": "masjid_alansar",
+        "group": "fallback",
+        "name": "Al-Ansar Mosque",
+        "address": "4014 Winona Ave, San Diego, CA 92105",
+        "phone": "(619) 282-4407",
+        "website": "https://testmasjidalansar.com",
+        "masjidal_id": None,
+        "scraper": lambda: aladhan_fallback("Site not maintained — using calculated adhan times"),
+    },
 ]
 
 

@@ -79,6 +79,7 @@ ATHANPLUS_EMBED = "https://timing.athanplus.com/masjid/widgets/embed?theme=3&mas
 
 # Masjidal simple widget URL — also renders in parseable HTML
 MASJIDAL_WIDGET = "https://masjidal.com/widget/simple/v3?masjid_id={masjid_id}"
+MASJIDAL_API    = "https://masjidal.com/api/v1/time?masjid_id={masjid_id}"
 
 
 # ─────────────────────────────────────────────────────────
@@ -220,74 +221,52 @@ def scrape_athanplus(masjid_id, name="", known_jumuah=None):
 
 def scrape_masjidal_widget(masjid_id, name=""):
     """
-    Fetch masjidal.com simple widget and parse prayer times from rendered HTML.
+    Fetch Masjidal JSON API for iqamah times.
+    API: https://masjidal.com/api/v1/time?masjid_id=<id>
+    Returns iqama + jummah1/jummah2 fields directly — no HTML parsing needed.
 
     Confirmed working for:
       Masjid Hamza → adJq9xAk
     """
-    url = MASJIDAL_WIDGET.format(masjid_id=masjid_id)
-    print(f"  → Masjidal widget: {url}")
-    html = fetch(url)
-    if not html:
-        print(f"  ⚠ Masjidal widget fetch failed for {masjid_id}, falling back to AlAdhan")
-        return aladhan_fallback(f"Masjidal widget unavailable for masjid_id={masjid_id}")
+    url = MASJIDAL_API.format(masjid_id=masjid_id)
+    print(f"  → Masjidal API: {url}")
+    data = fetch_json(url)
+    if not data:
+        print(f"  ⚠ Masjidal API fetch failed for {masjid_id}, falling back to AlAdhan")
+        return aladhan_fallback(f"Masjidal API unavailable for masjid_id={masjid_id}")
 
-    soup = BeautifulSoup(html, "lxml")
-    text = soup.get_text(" ", strip=True).upper()
+    if data.get("status") != "success":
+        print(f"  ⚠ Masjidal API returned non-success for {masjid_id}, falling back to AlAdhan")
+        return aladhan_fallback(f"Masjidal API error for masjid_id={masjid_id}")
+
+    d    = data["data"]
+    iq   = d.get("iqama", {})
+    sal  = d.get("salah", {})
 
     result = empty_times()
-    result["source"] = f"masjidal_widget_live (masjid_id={masjid_id})"
+    result["source"]       = f"masjidal_api_live (masjid_id={masjid_id})"
     result["last_updated"] = TODAY
-    result["notes"] = f"Live iqamah times via Masjidal widget. masjid_id={masjid_id}"
+    result["notes"]        = f"Live iqamah times via Masjidal API. masjid_id={masjid_id}"
 
-    prayer_map = {
-        "fajr": "fajr", "dhuhr": "dhuhr", "zuhr": "dhuhr",
-        "asr": "asr", "maghrib": "maghrib", "isha": "isha",
-        "sunrise": "sunrise"
-    }
+    result["fajr"]    = clean_time(iq.get("fajr"))
+    result["dhuhr"]   = clean_time(iq.get("zuhr") or iq.get("dhuhr"))
+    result["asr"]     = clean_time(iq.get("asr"))
+    result["maghrib"] = clean_time(iq.get("maghrib"))
+    result["isha"]    = clean_time(iq.get("isha"))
+    result["sunrise"] = clean_time(sal.get("sunrise"))
 
-    # Masjidal widget v3 structure per prayer:
-    #   "FAJR ATHAN 4:54AM 5:30AM IQAMAH"
-    # Iqamah is the time that appears immediately BEFORE the "IQAMAH" label.
-    TIME_RE = r"([\d]{1,2}:[\d]{2}\s*[AP]M)"
-    for prayer, key in prayer_map.items():
-        # Primary: PRAYER ATHAN time time IQAMAH — capture second time (iqamah)
-        pat = rf"{prayer.upper()}\s+ATHAN\s+{TIME_RE}\s+{TIME_RE}\s+IQAMAH"
-        m = re.search(pat, text, re.IGNORECASE)
-        if m:
-            result[key] = clean_time(m.group(2))
-            continue
-        # Fallback A: time immediately before IQAMAH, within prayer block
-        pat2 = rf"{prayer.upper()}.*?{TIME_RE}\s+IQAMAH"
-        m2 = re.search(pat2, text, re.IGNORECASE | re.DOTALL)
-        if m2:
-            result[key] = clean_time(m2.group(1))
-            continue
-        # Fallback B: any time after prayer name
-        pat3 = rf"{prayer.upper()}[^0-9]*?{TIME_RE}"
-        m3 = re.search(pat3, text, re.IGNORECASE)
-        if m3:
-            result[key] = clean_time(m3.group(1))
-
-    # Jumu'ah — Masjidal widget shows times around the JUMU'AH label:
-    #   "1:15PM JUMU'AH 2:15PM SUNRISE"
-    # Capture time immediately before AND immediately after the label.
-    jumuah_times = []
-    m_before = re.search(rf"{TIME_RE}\s+JUM(?:U|')?AH", text, re.IGNORECASE)
-    if m_before:
-        jumuah_times.append(clean_time(m_before.group(1)))
-    m_after = re.search(r"JUM(?:U|')?AH\s+" + TIME_RE, text, re.IGNORECASE)
-    if m_after:
-        t = clean_time(m_after.group(1))
-        if t and t not in jumuah_times:
-            jumuah_times.append(t)
-    result["jumuah"] = jumuah_times
+    jumuah = []
+    for key in ("jummah1", "jummah2", "jummah3", "jummah4"):
+        t = clean_time(iq.get(key))
+        if t:
+            jumuah.append(t)
+    result["jumuah"] = jumuah
 
     if result["fajr"] or result["isha"]:
         return result
 
-    print(f"  ⚠ Masjidal widget parse produced no times for {masjid_id}, falling back to AlAdhan")
-    return aladhan_fallback(f"Masjidal widget parse failed for masjid_id={masjid_id}")
+    print(f"  ⚠ Masjidal API returned no times for {masjid_id}, falling back to AlAdhan")
+    return aladhan_fallback(f"Masjidal API parse failed for masjid_id={masjid_id}")
 
 
 # ─────────────────────────────────────────────────────────

@@ -2,9 +2,9 @@
   "generated_at": "2026-04-16T11:08:59.335775+00:00",
   "date": "2026-04-16",
   "summary": {
-    "total": 14,
+    "total": 15,
     "integration_count": 5,
-    "scrape_count": 4,
+    "scrape_count": 5,
     "fallback_count": 5
   },
   "groups": {
@@ -231,6 +231,30 @@
             "source": "aladhan_api_calculated",
             "last_updated": "2026-04-16",
             "notes": "No prayer times on masjidassunnahsd.com \u2014 showing calculated adhan. Contact: (619) 535-8340 or @masjidassunnahsd"
+          }
+        },
+        {
+          "id": "masjid_usman",
+          "name": "Masjid Usman",
+          "address": "7126 Westview Pl, Lemon Grove, CA 91945",
+          "phone": null,
+          "website": "https://masjidusman.org",
+          "data_group": "scrape",
+          "masjidal_id": null,
+          "timings": {
+            "fajr": "4:03 AM",
+            "dhuhr": "12:03 PM",
+            "asr": "3:41 PM",
+            "maghrib": "6:34 PM",
+            "isha": "8:04 PM",
+            "jumuah": [
+              "2:00 PM",
+              "2:30 PM"
+            ],
+            "sunrise": null,
+            "source": "scraped_masjidusman.org",
+            "last_updated": "2026-04-16",
+            "notes": "Static iqamah times from masjidusman.org/namaz-times/ \u2014 verify seasonally. 2 Jumu'ah sessions."
           }
         }
       ]

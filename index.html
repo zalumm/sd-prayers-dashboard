@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>San Diego Prayer Times — Iqamah Times for 13 Masajid</title>
-<meta name="description" content="Daily prayer and iqamah times for 13 San Diego masajid — MCC, ICSD, Ribat, Hamza, Huda, Taqwa, Sunnah, ACIC, Firdaws, An-Nur, Omar, and more. Fajr, Dhuhr, Asr, Maghrib, Isha, and Jumu'ah.">
-<meta name="keywords" content="San Diego prayer times, San Diego masjid, iqamah times, salah times, San Diego mosque, Muslim San Diego, Jumu'ah San Diego, MCC San Diego, ICSD prayer times">
+<title>San Diego Prayer Times — Iqamah Times for 14 Masajid</title>
+<meta name="description" content="Daily prayer and iqamah times for 14 San Diego masajid — MCC, ICSD, Ribat, Hamza, Huda, Taqwa, Sunnah, ACIC, Firdaws, An-Nur, Omar, Masjid Usman, and more. Fajr, Dhuhr, Asr, Maghrib, Isha, and Jumu'ah.">
+<meta name="keywords" content="San Diego prayer times, San Diego masjid, iqamah times, salah times, San Diego mosque, Muslim San Diego, Jumu'ah San Diego, MCC San Diego, ICSD prayer times, Masjid Usman, Lemon Grove mosque">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="HtU6ZkDlDF83ZVidvwpC3ekqV4JySvgK4i4dFO2CC7w">
 <link rel="canonical" href="https://zalumm.github.io/sd-prayers-dashboard">
 <meta property="og:type" content="website">
-<meta property="og:title" content="San Diego Prayer Times — Iqamah Times for 13 Masajid">
-<meta property="og:description" content="Daily prayer and iqamah times for 13 San Diego masajid. Fajr, Dhuhr, Asr, Maghrib, Isha, and Jumu'ah. Updated daily.">
+<meta property="og:title" content="San Diego Prayer Times — Iqamah Times for 14 Masajid">
+<meta property="og:description" content="Daily prayer and iqamah times for 14 San Diego masajid. Fajr, Dhuhr, Asr, Maghrib, Isha, and Jumu'ah. Updated daily.">
 <meta property="og:url" content="https://zalumm.github.io/sd-prayers-dashboard">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="San Diego Prayer Times — Iqamah Times for 13 Masajid">
-<meta name="twitter:description" content="Daily prayer and iqamah times for 13 San Diego masajid. Updated daily.">
+<meta name="twitter:title" content="San Diego Prayer Times — Iqamah Times for 14 Masajid">
+<meta name="twitter:description" content="Daily prayer and iqamah times for 14 San Diego masajid. Updated daily.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "San Diego Masajid Prayer Times",
   "url": "https://zalumm.github.io/sd-prayers-dashboard",
-  "description": "Daily iqamah and prayer times for 13 masajid in San Diego, CA. Includes Fajr, Dhuhr, Asr, Maghrib, Isha, and Jumu'ah times.",
+  "description": "Daily iqamah and prayer times for 14 masajid in San Diego, CA. Includes Fajr, Dhuhr, Asr, Maghrib, Isha, and Jumu'ah times.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "areaServed": {
@@ -787,6 +787,7 @@ const MASJIDS = [
   // ── SCRAPE — static html ──────────────────────────────────────────
   { id:'icsd_main',       name:'Islamic Center of San Diego (ICSD)',               address:'7050 Eckstrom Ave, San Diego, CA 92111',        phone:'(858) 278-5240', website:'https://www.icsd.org',                          lat:32.7923, lng:-117.1418, type:'scrape',   platform:'Website' },
   { id:'icsd_ec',         name:'Islamic Center of San Diego — East County',        address:'833 Broadway, El Cajon, CA 92021',              phone:'(619) 631-7477', website:'https://www.icsdec.org',                        lat:32.7948, lng:-116.9622, type:'scrape',   platform:'Website' },
+  { id:'masjid_usman',    name:'Masjid Usman',                                     address:'7126 Westview Pl, Lemon Grove, CA 91945',       phone:null,             website:'https://masjidusman.org',                       lat:32.7390, lng:-117.0310, type:'scrape',   platform:'Website' },
   { id:'masjidul_taqwa',  name:'Masjidul Taqwa',                                   address:'2575 Imperial Ave, San Diego, CA 92102',        phone:'(619) 239-6738', website:'https://www.masjidultaqwasandiego.org',         lat:32.7139, lng:-117.1326, type:'fallback',  note:'Full daily schedule via iOS Taqwa App.' },
   { id:'masjid_assunnah', name:'Masjid As-Sunnah',                                 address:'4758 Federal Blvd, San Diego, CA 92102',        phone:'(619) 535-8340', website:'https://www.masjidassunnahsd.com',              lat:32.7288, lng:-117.1108, type:'fallback',  note:'Prayer times not yet published online.' },
   // ── FALLBACK — no iqamah data ─────────────────────────────────────

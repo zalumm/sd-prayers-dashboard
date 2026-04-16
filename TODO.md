@@ -37,10 +37,10 @@ For each: determine if live scrape is possible, otherwise use fallback (calculat
 
 ### Lemon Grove
 
-- [ ] **Masjid Usman**
+- [x] **Masjid Usman** ✓ Added 2026-04-16
   - Address: 7126 Westview Pl, Lemon Grove, CA 91945
   - Website: https://masjidusman.org
-  - Notes: Active, est. 15+ years, has prayer times on website
+  - Notes: Active, est. 15+ years. Static iqamah from /namaz-times/ — 2 Jumu'ah (2:00 PM, 2:30 PM). Verify seasonally.
 
 ---
 

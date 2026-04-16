@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zalumm.github.io/sd-prayers-dashboard/sitemap.xml

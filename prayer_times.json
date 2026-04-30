@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-29T11:42:11.218564+00:00",
-  "date": "2026-04-29",
+  "generated_at": "2026-04-30T11:41:36.875990+00:00",
+  "date": "2026-04-30",
   "summary": {
     "total": 14,
     "integration_count": 5,
@@ -33,7 +33,7 @@
             ],
             "sunrise": "6:11 AM",
             "source": "themasjidapp_live (id=195)",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Live iqamah times via The Masjid App (Darululoom claimed, staff-managed). 3 Jumu'ah sessions."
           }
         },
@@ -57,7 +57,7 @@
             ],
             "sunrise": "6:10 AM",
             "source": "themasjidapp_live (id=198)",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Live iqamah times via The Masjid App (MCC claimed, staff-managed)"
           }
         },
@@ -78,9 +78,9 @@
             "jumuah": [
               "1:00 PM"
             ],
-            "sunrise": "6:03 AM",
+            "sunrise": "6:02 AM",
             "source": "athanplus_live (masjid_id=VKpDmoKP)",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Live iqamah times via Athan+/Masjidal. masjid_id=VKpDmoKP"
           }
         },
@@ -96,15 +96,15 @@
             "fajr": "5:15 AM",
             "dhuhr": "1:15 PM",
             "asr": "6:15 PM",
-            "maghrib": "7:36 PM",
+            "maghrib": "7:37 PM",
             "isha": "9:15 PM",
             "jumuah": [
               "1:15 PM",
               "2:15 PM"
             ],
-            "sunrise": "6:03 AM",
+            "sunrise": "6:02 AM",
             "source": "masjidal_api_live (masjid_id=adJq9xAk)",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Live iqamah times via Masjidal API. masjid_id=adJq9xAk"
           }
         },
@@ -121,13 +121,13 @@
             "dhuhr": "1:15 PM",
             "asr": "4:45 PM",
             "maghrib": "7:39 PM",
-            "isha": "8:45 PM",
+            "isha": "9:00 PM",
             "jumuah": [
               "Khutbah: 1:15 PM"
             ],
             "sunrise": null,
             "source": "scraped_hudacommunitycenter.org (Masjidal plugin)",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Live iqamah times scraped from Masjidal WordPress plugin rendered HTML"
           }
         }
@@ -157,7 +157,7 @@
             ],
             "sunrise": null,
             "source": "scraped_icsd.org",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Iqamah times manually maintained by ICSD \u2014 updated seasonally"
           }
         },
@@ -183,7 +183,7 @@
             ],
             "sunrise": null,
             "source": "scraped_icsdec.org",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "ICSD East County \u2014 full iqamah schedule. 4 Jumu'ah khutbah sessions (20 min each including prayer): Arabic at 11:30 AM & 1:00 PM; English at 12:15 PM & 1:45 PM."
           }
         },
@@ -196,17 +196,17 @@
           "data_group": "scrape",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
+            "fajr": "04:49",
             "dhuhr": "12:46",
             "asr": "16:26",
-            "maghrib": "19:29",
+            "maghrib": "19:30",
             "isha": "20:43",
             "jumuah": [
               "62:9 PM"
             ],
-            "sunrise": "06:03",
+            "sunrise": "06:02",
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "Jumu'ah 1:00 PM. Full daily schedule via iOS Taqwa App. Showing calculated adhan times as reference."
           }
         },
@@ -219,17 +219,17 @@
           "data_group": "scrape",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
+            "fajr": "04:49",
             "dhuhr": "12:46",
             "asr": "16:26",
-            "maghrib": "19:29",
+            "maghrib": "19:30",
             "isha": "20:43",
-            "sunrise": "06:03",
+            "sunrise": "06:02",
             "jumuah": [
               "1:00 PM"
             ],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "No prayer times on masjidassunnahsd.com \u2014 showing calculated adhan. Contact: (619) 535-8340 or @masjidassunnahsd"
           }
         }
@@ -248,15 +248,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
+            "fajr": "04:49",
             "dhuhr": "12:46",
             "asr": "16:26",
-            "maghrib": "19:29",
+            "maghrib": "19:30",
             "isha": "20:43",
-            "sunrise": "06:03",
+            "sunrise": "06:02",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "ACIC site SSL expired \u2014 using calculated times"
           }
         },
@@ -269,15 +269,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
+            "fajr": "04:49",
             "dhuhr": "12:46",
             "asr": "16:26",
-            "maghrib": "19:29",
+            "maghrib": "19:30",
             "isha": "20:43",
-            "sunrise": "06:03",
+            "sunrise": "06:02",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "No website \u2014 using calculated adhan times"
           }
         },
@@ -290,15 +290,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
+            "fajr": "04:49",
             "dhuhr": "12:46",
             "asr": "16:26",
-            "maghrib": "19:29",
+            "maghrib": "19:30",
             "isha": "20:43",
-            "sunrise": "06:03",
+            "sunrise": "06:02",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "No website \u2014 using calculated adhan times"
           }
         },
@@ -311,15 +311,15 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
+            "fajr": "04:49",
             "dhuhr": "12:46",
             "asr": "16:26",
-            "maghrib": "19:29",
+            "maghrib": "19:30",
             "isha": "20:43",
-            "sunrise": "06:03",
+            "sunrise": "06:02",
             "jumuah": [],
             "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
+            "last_updated": "2026-04-30",
             "notes": "No website \u2014 using calculated adhan times"
           }
         },
@@ -332,16 +332,16 @@
           "data_group": "fallback",
           "masjidal_id": null,
           "timings": {
-            "fajr": "04:50",
-            "dhuhr": "12:46",
-            "asr": "16:26",
-            "maghrib": "19:29",
-            "isha": "20:43",
-            "sunrise": "06:03",
+            "fajr": null,
+            "dhuhr": null,
+            "asr": null,
+            "maghrib": null,
+            "isha": null,
             "jumuah": [],
-            "source": "aladhan_api_calculated",
-            "last_updated": "2026-04-29",
-            "notes": "Site not maintained \u2014 using calculated adhan times"
+            "sunrise": null,
+            "source": "unavailable",
+            "last_updated": "2026-04-30",
+            "notes": "AlAdhan API unavailable \u2014 Site not maintained \u2014 using calculated adhan times"
           }
         }
       ]
